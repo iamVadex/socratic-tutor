@@ -6,6 +6,13 @@ AI-powered e-learning system that teaches students through the Socratic method �
 An AI-powered Socratic tutor built entirely on open-source models with zero paid APIs.
 Fine-tuned using QLoRA on Gemma 2 9B to ask guiding questions instead of giving direct answers.
 
+## Approach
+The problem with prompting alone: System prompts that say "don't give direct answers" are brittle. Models drift, leak answers mid-conversation, and revert to explanation mode under pressure.
+The solution: Fine-tune the behavior into the model weights using QLoRA, so Socratic questioning is intrinsic — not enforced by fragile prompt engineering.
+Pipeline overview:
+Dataset Generation → QLoRA Fine-tuning → Evaluation → Dialogue Engine → Deployment
+      (Phase 1)          (Phase 2)         (Phase 2.6)     (Phase 3)       (Phase 4)
+
 ## Project Status
 Active development — NIT Calicut B.Tech CSE Internship Project
 
@@ -14,7 +21,7 @@ Active development — NIT Calicut B.Tech CSE Internship Project
 - QLoRA fine-tuning on Gemma 2 9B (Kaggle T4 x2, loss 5.3 → 0.7)
 - Evaluation response generation (base vs fine-tuned, 50 test cases)
 
-## In Progress
+## In Progress (evaluation methods not finalized)
 - Layer 1 automated evaluation (Socratic Compliance, BERTScore, ROUGE-L ,direct answer,correct answer,response length etc)
 - Layer 2 LLM-as-Judge panel (Claude + GPT-4 + Gemini+Llama 3 70B)
 - Layer 3 Human evaluation
@@ -26,9 +33,16 @@ Active development — NIT Calicut B.Tech CSE Internship Project
 -Report
 
 ## Dataset
-- Domains: Physics, Biology, Math, Economics, CS
-- 489 conversations, 3,107 training pairs
-- Generated using Ollama (gemma2:9b) locally
+Generated entirely locally using Ollama (gemma2:9b) on an Acer Predator laptop — no cloud APIs.
+Property                     Value
+Total conversations           489 (from 525 attempts, 93% acceptance)
+
+Training pairs                3,107
+
+Avg turns per 
+conversation                  13.7
+
+Domains                       Physics (200), Biology (129), Math (97), CS (32), Economics (31)
 
 ## Model
 - Base: google/gemma-2-9b-it
